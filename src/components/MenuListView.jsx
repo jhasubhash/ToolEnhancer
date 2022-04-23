@@ -4,6 +4,7 @@ import { FillCommand, DiselectCommand } from "./Command.jsx";
 
 const action = require('photoshop').action;
 let autoLassoEnabled = false;
+let lastActionLasso = false;
 
 export const MenuListView = () => {
     const lassoFillRef = useRef(null);
@@ -33,10 +34,19 @@ export const MenuListView = () => {
     }
 
     function listener(e,d) {
-        if((e === "toolModalStateChanged" && d.selectedTool && d.selectedTool.title.includes("Lasso Tool") && d.state._value === "exit")){
+        if((e === "toolModalStateChanged" && d.selectedTool && d.selectedTool.title.includes("Lasso Tool"))){
+            if(d.state._value === "enter"){
+                lastActionLasso = false;
+            } else if(d.state._value === "exit"){
+                lastActionLasso = true;
+            }
+        } else if(e === "set" &&  d.to && d.to._obj === "polygon" && lastActionLasso){
+            lastActionLasso = false;
             if(autoLassoEnabled){
                 fillAndDiselect();
             }
+        } else {
+            lastActionLasso = false;
         }
     };
 
@@ -44,6 +54,9 @@ export const MenuListView = () => {
         action.addNotificationListener([
             {
                 event: "toolModalStateChanged"
+            },
+            {
+                event: "set"
             }
         ], listener);
       return () => {
