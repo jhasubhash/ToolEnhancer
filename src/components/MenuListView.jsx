@@ -38,17 +38,36 @@ export const MenuListView = () => {
         }
     }
 
-    const fillAndDiselect = async () => {
+    const fillAndDiselect = async (executionContext) => {
+        let hostControl = executionContext.hostControl;
+        let documentID = require("photoshop").app.activeDocument.id;
+        console.log(documentID);
+        let suspensionID = await hostControl.suspendHistory({
+            "documentID": documentID,
+            "name": "autoLassoFill"
+        });
         await FillCommand();
         await DiselectCommand();
+
+        // resume the history state
+        await hostControl.resumeHistory(suspensionID);
     }
 
-    const clearAndDiselect = async () => {
+    const clearAndDiselect = async (executionContext) => {
+        let hostControl = executionContext.hostControl;
+        let documentID = require("photoshop").app.activeDocument.id;
+        console.log(documentID);
+        let suspensionID = await hostControl.suspendHistory({
+            "documentID": documentID,
+            "name": "autoLassoClear"
+        });
         await ClearCommand();
         await DiselectCommand();
+        // resume the history state
+        await hostControl.resumeHistory(suspensionID);
     }
 
-    function listener(e,d) {
+    const listener = async (e,d) => {
         if((e === "toolModalStateChanged" && d.selectedTool && d.selectedTool.title.includes("Lasso Tool"))){
             if(d.state._value === "enter"){
                 lastActionLasso = false;
@@ -58,9 +77,11 @@ export const MenuListView = () => {
         } else if(e === "set" &&  d.to && d.to._obj === "polygon" && lastActionLasso){
             lastActionLasso = false;
             if(autoLassoFillEnabled){
-                fillAndDiselect();
+                //fillAndDiselect();
+                await require("photoshop").core.executeAsModal(fillAndDiselect, {"autoLassoFill": "Auto fill lasso selection"});
             } else if(autoLassoClearEnabled){
-                clearAndDiselect();
+                //clearAndDiselect();
+                await require("photoshop").core.executeAsModal(clearAndDiselect, {"autoLassoClear": "Auto clear lasso selection"});
             }
         } else {
             lastActionLasso = false;

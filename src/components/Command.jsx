@@ -23,8 +23,7 @@ export const FillCommand = async () => {
         }
     }
     ],{
-    synchronousExecution: false,
-    modalBehavior: "fail"
+    synchronousExecution: false
     });
 }
 
@@ -48,8 +47,7 @@ export const DiselectCommand = async () => {
               }
            }
         ],{
-           synchronousExecution: false,
-           modalBehavior: "fail"
+           synchronousExecution: false
         });
 }
 
@@ -63,7 +61,6 @@ export const ClearCommand = async () => {
               }
            }
         ],{
-           synchronousExecution: true,
-           modalBehavior: "fail"
+           synchronousExecution: true
         });
 }
