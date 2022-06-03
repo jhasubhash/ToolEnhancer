@@ -41,7 +41,7 @@ export const MenuListView = () => {
     const fillAndDiselect = async (executionContext) => {
         let hostControl = executionContext.hostControl;
         let documentID = require("photoshop").app.activeDocument.id;
-        console.log(documentID);
+        //console.log(documentID);
         let suspensionID = await hostControl.suspendHistory({
             "documentID": documentID,
             "name": "autoLassoFill"
@@ -56,7 +56,7 @@ export const MenuListView = () => {
     const clearAndDiselect = async (executionContext) => {
         let hostControl = executionContext.hostControl;
         let documentID = require("photoshop").app.activeDocument.id;
-        console.log(documentID);
+        //console.log(documentID);
         let suspensionID = await hostControl.suspendHistory({
             "documentID": documentID,
             "name": "autoLassoClear"
@@ -67,6 +67,19 @@ export const MenuListView = () => {
         await hostControl.resumeHistory(suspensionID);
     }
 
+    const HasSelection = (arr)=> {
+        const allEqual = lst => lst.every( v => v === lst[0] );
+        //console.log(arr);
+        window.arr = arr;
+        if(arr && arr.horizontal && arr.horizontal.list && allEqual(arr.horizontal.list)){
+            return false;
+        }
+        if(arr && arr.vertical && arr.vertical.list && allEqual(arr.vertical.list)){
+            return false;
+        }
+        return true;
+    }
+
     const listener = async (e,d) => {
         if((e === "toolModalStateChanged" && d.selectedTool && d.selectedTool.title.includes("Lasso Tool"))){
             if(d.state._value === "enter"){
@@ -74,7 +87,7 @@ export const MenuListView = () => {
             } else if(d.state._value === "exit"){
                 lastActionLasso = true;
             }
-        } else if(e === "set" &&  d.to && d.to._obj === "polygon" && lastActionLasso){
+        } else if(e === "set" &&  d.to && d.to._obj === "polygon" && lastActionLasso && HasSelection(d.to.points)){
             lastActionLasso = false;
             if(autoLassoFillEnabled){
                 //fillAndDiselect();
