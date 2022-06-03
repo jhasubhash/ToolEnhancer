@@ -52,3 +52,18 @@ export const DiselectCommand = async () => {
            modalBehavior: "fail"
         });
 }
+
+export const ClearCommand = async () => {
+    const result = await batchPlay(
+        [
+           {
+              _obj: "delete",
+              _options: {
+                 dialogOptions: "dontDisplay"
+              }
+           }
+        ],{
+           synchronousExecution: true,
+           modalBehavior: "fail"
+        });
+}

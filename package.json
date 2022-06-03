@@ -1,10 +1,11 @@
 {
   "name": "toolenhancer",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "watch": "nodemon -w src -e js,jsx,json,css,html -w webpack.config.js -x npm run build",
-    "build": "webpack --mode development",
+    "watch": "nodemon -w src -e js,jsx,json,css,html -w webpack.config.js -x npm run build-dev",
+    "build": "webpack --mode production",
+    "build-dev": "webpack --mode development",
     "uxp:load": "cd dist && uxp plugin load",
     "uxp:reload": "cd dist && uxp plugin reload",
     "uxp:watch": "cd dist && nodemon --exec \"uxp plugin reload\" -e js,css,html",

@@ -1,7 +1,7 @@
 {
   "id": "196be244",
   "name": "Tools Enhancer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.html",
   "manifestVersion": 4,
   "host": [
@@ -18,8 +18,8 @@
         "default": "Tools Enhancer"
       },
       "minimumSize": {
-        "width": 230,
-        "height": 200
+        "width": 180,
+        "height": 150
       },
       "maximumSize": {
         "width": 2000,
@@ -27,11 +27,11 @@
       },
       "preferredDockedSize": {
         "width": 230,
-        "height": 300
+        "height": 150
       },
       "preferredFloatingSize": {
         "width": 230,
-        "height": 300
+        "height": 150
       },
       "icons": [
         {

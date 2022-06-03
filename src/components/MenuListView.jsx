@@ -1,27 +1,37 @@
 import React, {useEffect, useRef, useState, useCallback} from "react";
 import { WC } from "./WC.jsx";
-import { FillCommand, DiselectCommand } from "./Command.jsx";
+import { FillCommand, DiselectCommand, ClearCommand } from "./Command.jsx";
 
 const action = require('photoshop').action;
-let autoLassoEnabled = false;
+let autoLassoFillEnabled = false;
+let autoLassoClearEnabled = false;
 let lastActionLasso = false;
 
 export const MenuListView = () => {
     const lassoFillRef = useRef(null);
+    const lassoClearRef = useRef(null);
     const [autoLassoFill, setAutoLassoFill] = useState(false);
+    const [autoLassoClear, setAutoLassoClear] = useState(false);
+    const [lassoDefault, setLassoDefault] = useState(false);
      
     useEffect(() => {
-        autoLassoEnabled = autoLassoFill;
-    }, [autoLassoFill])
+        autoLassoFillEnabled = autoLassoFill;
+        autoLassoClearEnabled = autoLassoClear;
+    }, [autoLassoFill, autoLassoClear])
      
 
     const onMenuItemChange = (evt) => {
         const target = evt.target;
         const part = target.getAttribute("data-part");
-        console.log(evt.target);
         switch (part) {
             case "LF":
                 setAutoLassoFill(target.checked);
+                break;
+            case "LC":
+                setAutoLassoClear(target.checked);
+                break;
+            case "LL":
+                setLassoDefault(target.checked);
                 break;
             default:
                 break;
@@ -30,6 +40,11 @@ export const MenuListView = () => {
 
     const fillAndDiselect = async () => {
         await FillCommand();
+        await DiselectCommand();
+    }
+
+    const clearAndDiselect = async () => {
+        await ClearCommand();
         await DiselectCommand();
     }
 
@@ -42,8 +57,10 @@ export const MenuListView = () => {
             }
         } else if(e === "set" &&  d.to && d.to._obj === "polygon" && lastActionLasso){
             lastActionLasso = false;
-            if(autoLassoEnabled){
+            if(autoLassoFillEnabled){
                 fillAndDiselect();
+            } else if(autoLassoClearEnabled){
+                clearAndDiselect();
             }
         } else {
             lastActionLasso = false;
@@ -71,9 +88,12 @@ export const MenuListView = () => {
     return (
         <>
         <WC onInput={onMenuItemChange}>
-            <div>
-            <sp-checkbox ref={lassoFillRef} data-part="LF">Lasso Auto Fill</sp-checkbox>
-            </div>
+            <sp-radio-group column>
+                <sp-label slot="label">Lasso Tool:</sp-label>
+                <sp-radio value="lf" data-part="LF">Auto Fill</sp-radio>
+                <sp-radio value="lc" data-part="LC">Auto Clear</sp-radio>
+                <sp-radio value="ll" data-part="LL" checked>Default</sp-radio>
+            </sp-radio-group>
         </WC>
         </>
     );
