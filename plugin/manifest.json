@@ -1,14 +1,14 @@
 {
   "id": "196be244",
   "name": "Tools Enhancer",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "main": "index.html",
   "manifestVersion": 4,
   "host": [
     {
       "app": "PS",
       "minVersion": "22.0.0",
-      "data" : {
+      "data": {
         "apiVersion": 2,
         "loadEvent": "use"
       }
@@ -39,35 +39,20 @@
       },
       "icons": [
         {
-          "width": 32,
-          "height": 32,
-          "path": "icons/icon_D.png",
+          "width": 23,
+          "height": 23,
+          "path": "icons/plugin.png",
           "scale": [
             1,
             2
           ],
           "theme": [
+            "darkest",
             "dark",
-            "darkest"
-          ],
-          "species": [
-            "generic"
-          ]
-        },
-        {
-          "width": 32,
-          "height": 32,
-          "path": "icons/icon_N.png",
-          "scale": [
-            1,
-            2
-          ],
-          "theme": [
+            "medium",
             "lightest",
-            "light"
-          ],
-          "species": [
-            "generic"
+            "light",
+            "all"
           ]
         }
       ]
@@ -75,35 +60,23 @@
   ],
   "icons": [
     {
-      "width": 32,
-      "height": 32,
-      "path": "icons/icon_D.png",
+      "width": 48,
+      "height": 48,
+      "path": "icons/plugin.png",
       "scale": [
         1,
         2
       ],
       "theme": [
+        "darkest",
         "dark",
-        "darkest"
-      ],
-      "species": [
-        "generic"
-      ]
-    },
-    {
-      "width": 32,
-      "height": 32,
-      "path": "icons/icon_N.png",
-      "scale": [
-        1,
-        2
-      ],
-      "theme": [
+        "medium",
         "lightest",
-        "light"
+        "light",
+        "all"
       ],
       "species": [
-        "generic"
+        "pluginList"
       ]
     }
   ]

@@ -123,7 +123,7 @@ export const MenuListView = () => {
         <>
         <WC onInput={onMenuItemChange}>
             <sp-radio-group column>
-                <sp-label slot="label">Lasso Tool:</sp-label>
+                <sp-label slot="label">Lasso Tool</sp-label>
                 <sp-radio value="lf" data-part="LF">Auto Fill</sp-radio>
                 <sp-radio value="lc" data-part="LC">Auto Clear</sp-radio>
                 <sp-radio value="ll" data-part="LL" checked>Default</sp-radio>
